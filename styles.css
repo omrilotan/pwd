@@ -1,0 +1,49 @@
+html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+
+}
+
+body {
+    line-height: 1;
+    height: 100%;
+}
+
+
+main {
+    display: block;
+    width: 80%;
+    margin: 1em auto 0;
+}
+
+textarea, input {
+    font: normal 24px/28px monospace;
+    border: 1px solid #ccc;
+    box-sizing: content-box;
+    padding: .25em;
+    margin: 0 auto 1em;
+}
+
+input[type="number"] {
+    display: block;
+    text-align: center;
+    width: 3em;
+}
+
+textarea, input[type="text"] {
+    width: 100%;
+}
+
+textarea {
+    resize: vertical;
+    height: 8em;
+}
+
+input[type="text"] {
+    background: #000;
+    color: #090;
+}
