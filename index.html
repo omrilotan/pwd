@@ -18,10 +18,11 @@
             </h1>
             <input type="number" id="long" value="12" min="1" max="48" />
             <input type="text" id="outcome" readonly />
+            <button id="copy" data-clipboard-target="#outcome">&#9999;</button>
             <textarea placeholder="type phrase here" id="phrase"></textarea>
         </main>
         <script>
-var passwordise = function (str) {
+var passwordise = function passwordise (str) {
     var len = !isNaN(parseInt(long.value, 10)) ? parseInt(long.value) : 12;
     counter.innerHTML = len;
 
@@ -39,12 +40,45 @@ var passwordise = function (str) {
 phrase.onchange =
 phrase.onkeyup =
 long.onchange =
-long.onkeyup = function () {
+long.onkeyup = function triggered () {
     outcome.value = passwordise(phrase.value);
 };
-document.body.onload = function () {
+document.body.onload = function loaded () {
     outcome.onclick = outcome.select;
     phrase.focus();
+};
+        </script>
+        <script src="https://clipboardjs.com/dist/clipboard.min.js"></script>
+        <script>
+var clipboard = new Clipboard('#copy');
+
+clipboard.on('success', function clipboardSuccess (e) {
+    if (e.text.length < 1) {
+        return;
+    }
+    msg("copied");
+    e.clearSelection();
+});
+
+clipboard.on('error', function clipboardError () {
+    // Probably Safari
+    if (outcome.value.length < 1) {
+        return;
+    }
+    msg("⌘+C to copy");
+});
+
+var msg = function msg (message) {
+    if (document.getElementsByClassName('prompt').length > 0) {
+        return;
+    }
+    var prompt = document.createElement('div');
+    prompt.classList.add('prompt');
+    prompt.appendChild(document.createTextNode(message));
+    document.body.appendChild(prompt);
+    setTimeout(function removePromprt () {
+        document.body.removeChild(prompt);
+    }, 1000);
 };
         </script>
         <script src="https://omrilotan.github.io/sourcefiles.js" async></script>
