@@ -4,22 +4,29 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
-        <title>PWD consistent password generator</title>
+        <title>PWD: consistent password generator</title>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="googlebot" content="noindex" />
         <meta name="robots" content="noindex" />
         <style>
 html, body {
     min-height: 100%;
-    margin: 0;
+    margin : 0;
     padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%;
+    border : none;
+    outline: none;
+}
 
+html { font-size: 16px; }
+@media screen and (min-width: 25em){
+    html { font-size: calc( 16px + (24 - 16) * (100vw - 400px) / (800 - 400) ); }
+}
+@media screen and (max-width: 600px){
+    html { font-size: calc( 24px + (32 - 24) * (100vw - 400px) / (800 - 400) ); }
 }
 
 body {
+    font-size: 100%;
     line-height: 1;
     height: 100%;
 }
@@ -27,37 +34,47 @@ body {
 
 main {
     display: block;
-    width: 80%;
-    margin: 1em auto 0;
+    margin: 0 auto;
+    padding: 0 1rem;
+    max-width: 800px;
+}
+
+h1 {
+    font: normal 1em/1.5em serif;
+    margin: 0;
 }
 
 textarea, input, button {
-    font: normal 24px/28px monospace;
+    font: normal 1em/2em monospace;
     border: 1px solid #ccc;
     box-sizing: border-box;
     padding: .25em;
-    margin: 0 auto 1em;
-}
-
-input[type="number"] {
-    display: block;
-    text-align: center;
-    width: 3em;
+    margin: 0 auto;
 }
 
 textarea {
     width: 100%;
     resize: vertical;
     height: 8em;
+    outline: none;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
 }
 
 input[type="text"] {
     background: #000;
     border-color: #000;
     color: #090;
-    width: calc(100% - 60px);
+    width: calc(100% - 6em);
     float: left;
     border-right: none;
+    border-radius: 10px 0 0 0;
+}
+
+input[type="number"] {
+    text-align: center;
+    float: left;
+    width: 3em;
 }
 
 button {
@@ -65,15 +82,15 @@ button {
     box-shadow: inset 0 1px 0 0 #fff;
     color: #000;
     text-shadow: 0 1px 0 #fff;
-    width: 60px;
+    width: 3em;
     overflow: auto;
     border-color: #000;
     border-left: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 10px 0 0;
 }
 
 .prompt {
-    font: normal 24px/28px sans-serif;
+    font: normal 1em/1.2em sans-serif;
     position: fixed;
     top: 0;
     left: 0;
@@ -88,11 +105,9 @@ button {
     <body>
         <a href="https://github.com/omrilotan/pwd" class="source"></a>
         <main>
-            <h1>
-                <span id="counter">12</span> Chars consistent password generator
-            </h1>
-            <input type="number" id="long" value="12" min="1" max="48" />
+            <h1>consistent password generator</h1>
             <input type="text" id="outcome" readonly />
+            <input type="number" id="long" value="12" min="1" max="48" />
             <button id="copy" data-clipboard-target="#outcome">&#9999;</button>
             <textarea placeholder="type phrase here" id="phrase"></textarea>
         </main>
@@ -110,7 +125,6 @@ button {
 //////////////////
 var passwordise = function passwordise (str) {
     var len = !isNaN(parseInt(long.value, 10)) ? parseInt(long.value) : 12;
-    counter.innerHTML = len;
 
     if (str === '') {
         return str;
