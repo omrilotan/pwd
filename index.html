@@ -9,15 +9,19 @@
         <meta name="googlebot" content="noindex" />
         <meta name="robots" content="noindex" />
         <style>
+/* reset */
 html, body {
     min-height: 100%;
     margin : 0;
     padding: 0;
     border : none;
     outline: none;
-    background: #ecf0f1;
+}
+body {
+    height: 100%;
 }
 
+/* Typography */
 html { font-size: 16px; }
 @media screen and (min-width: 25em) {
     html { font-size: calc( 16px + (24 - 16) * (100vw - 400px) / (800 - 400) ); }
@@ -25,14 +29,69 @@ html { font-size: 16px; }
 @media screen and (max-width: 600px) {
     html { font-size: calc( 21px + (28 - 21) * (100vw - 400px) / (800 - 400) ); }
 }
-
 body {
     font-size: 100%;
     line-height: 1;
-    height: 100%;
-    color: #2c3e50;
+}
+h1 {
+    font: normal 7vw/1.5em serif;
+}
+@media screen and (min-width: 800px) {
+    h1 {
+        font-size: 64px;
+    }
+}
+textarea, input, button {
+    font: normal 1em/2em monospace;
 }
 
+/* Positioning */
+input[type="text"] {
+    width: 100%;
+    height: 3em;
+    cursor: pointer;
+}
+textarea {
+    width: calc(100% - 3em);
+    float: left;
+    height: 6em;
+    min-height: 6em;
+}
+input[type="number"] {
+    width: 3em;
+    height: 6em;
+    overflow: auto;
+}
+input[type="number"] {
+    text-align: center;
+}
+
+/* Theme */
+html, body {
+    background: #ecf0f1;
+    color: #8e44ad;
+}
+input[type="text"] {
+    background: #8e44ad;
+    color: #ecf0f1;
+}
+input[type="number"],
+textarea {
+    background: #fff;
+    color: #8e44ad;
+}
+button {
+    background: #8e44ad;
+    color: #ecf0f1;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .3);
+}
+.prompt {
+    background: #9b59b6;
+    color: #ecf0f1;
+}
+a { color: #8e44ad; }
+
+/* Misc */
 main {
     display: block;
     margin: 0 auto;
@@ -42,83 +101,36 @@ main {
         padding: 0 1rem;
     }
 }
-
 h1 {
-    font: normal 7vw/1.5em serif;
     text-align: center;
     margin: 0;
     text-transform: capitalize;
 }
-@media screen and (min-width: 800px) {
-    h1 {
-        font-size: 64px;
-    }
-}
-
 textarea, input, button {
-    font: normal 1em/2em monospace;
     border: none;
+    outline: none;
     box-sizing: border-box;
+    resize: vertical;
     padding: .25em;
     margin: 0 auto;
 }
-
-textarea {
-    width: 100%;
-    resize: vertical;
-    height: 8em;
-    outline: none;
-}
-
-input[type="text"] {
-    background: #2c3e50;
-    color: #1abc9c;
-    width: calc(100% - 6em);
-    float: left;
-}
-
-input[type="number"] {
-    text-align: center;
-    float: left;
-    width: 3em;
-}
-
-button {
-    background: #d35400;
-    color: #f39c12;
-    text-shadow: 0 1px 0 #c0392b;
-    width: 3em;
-    overflow: auto;
-}
-
 .prompt {
     font: normal 1em/1.2em sans-serif;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: #2c3e50;
-    color: #ecf0f1;
     padding: 1em .25em;
     text-align: center;
-}
-
-a[area-label="source"] {
-    position: absolute;
-    bottom: 0;
-    right : 0;
 }
         </style>
     </head>
     <body>
         <main>
             <h1>consistent password generator</h1>
-            <input type="text" id="outcome" readonly />
-            <input type="number" id="long" value="12" min="1" max="48" />
-            <button id="copy" data-clipboard-target="#outcome">&#8984;</button>
-            <textarea placeholder="type phrase here" id="phrase"></textarea>
-
-            <a href="https://github.com/omrilotan/pwd" area-label="source">source code</a>
+            <input id="outcome" type="text" readonly data-clipboard-target="#outcome" />
+            <textarea id="phrase" placeholder="type phrase here" autocorrect="off" autocapitalize="off"></textarea>
+            <input id="long" type="number" value="12" min="1" max="48" />
         </main>
         <script>
 /*!
@@ -160,7 +172,7 @@ document.body.onload = function loaded () {
 ////////////////////////
 // Using clipboard.js //
 ////////////////////////
-var clipboard = new Clipboard('#copy');
+var clipboard = new Clipboard('#outcome');
 
 clipboard.on('success', function clipboardSuccess (e) {
     if (e.text.length < 1) {
