@@ -130,7 +130,7 @@ textarea, input, button {
             <h1>consistent password generator</h1>
             <input id="outcome" type="text" readonly data-clipboard-target="#outcome" />
             <textarea id="phrase" placeholder="type phrase here" autocorrect="off" autocapitalize="off"></textarea>
-            <input id="long" type="number" value="12" min="1" max="48" />
+            <input id="long" type="number" value="18" min="1" max="48" />
         </main>
         <script>
 /*!
@@ -145,7 +145,7 @@ textarea, input, button {
 // Page Scripts //
 //////////////////
 var passwordise = function passwordise (str) {
-    var len = !isNaN(parseInt(long.value, 10)) ? parseInt(long.value) : 12;
+    var len = !isNaN(parseInt(long.value, 10)) ? parseInt(long.value) : 18;
 
     if (str === '') {
         return str;
