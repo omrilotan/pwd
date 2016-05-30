@@ -41,7 +41,7 @@ h1 {
         font-size: 64px;
     }
 }
-textarea, input, button, select {
+textarea, input, button, select, option {
     font: normal 1em/2em monospace;
 }
 
@@ -63,6 +63,9 @@ select {
     width: 4em;
     height: 3em;
     overflow: auto;
+}
+option {
+    padding: 1em 0;
 }
 input[type="number"] {
     text-align: center;
@@ -137,7 +140,7 @@ select {
             <h1>consistent password generator</h1>
             <input id="outcome" type="text" readonly data-clipboard-target="#outcome" />
             <textarea id="phrase" placeholder="type phrase here" autocorrect="off" autocapitalize="off"></textarea>
-            <input id="long" type="number" value="18" min="1" max="48" /><select id="encr"><option value="sha1">SHA1</option><option value="md5">MD5</option></select>
+            <input id="long" type="number" value="18" min="1" max="48" /><select id="encr"><option value="md5">MD5</option><option value="sha1">SHA1</option></select>
         </main>
         <script>
 /*!
@@ -164,12 +167,12 @@ var passwordise = function passwordise (str) {
         return str;
     }
     switch (encr.value) {
-        case 'md5':
-            str = btoa(str);
-            break;
         case 'sha1':
-        default:
             str = Sha1.hash(str);
+            break;
+        case 'md5':
+        default:
+            str = btoa(str);
     }
 
     str = str.replace(/[^\w]/g, '');
