@@ -140,7 +140,7 @@ select {
             <h1>consistent password generator</h1>
             <input id="outcome" type="text" readonly data-clipboard-target="#outcome" />
             <textarea id="phrase" placeholder="type phrase here" autocorrect="off" autocapitalize="off"></textarea>
-            <input id="long" type="number" value="18" min="1" max="48" /><select id="encr"><option value="md5">MD5</option><option value="sha1">SHA1</option></select>
+            <input id="long" type="number" value="18" min="1" max="48" /><select id="encr"><option value="base64">Base64</option><option value="sha1">SHA1</option></select>
         </main>
         <script>
 /*!
@@ -170,7 +170,7 @@ var passwordise = function passwordise (str) {
         case 'sha1':
             str = Sha1.hash(str);
             break;
-        case 'md5':
+        case 'base64':
         default:
             str = btoa(str);
     }
