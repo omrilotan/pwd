@@ -8,7 +8,7 @@
 		<meta name="description" content="Consistent password generator 🗝 Create consistent passwords from phrases">
 		<link rel="canonical" href="https://omrilotan.com/pwd/">
 		<link rel="alternate" href="https://omrilotan.com/pwd/" hreflang="en-GB">
-		<link rel="manifest" href="manifest.json">
+		<link rel="manifest" href="manifest.webmanifest">
 		<meta name="theme-color" content="#9b59b6">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="#9b59b6">
@@ -22,57 +22,57 @@ html,body{height:100%}
 body, textarea, input, select, button{font:100 100%/1em -apple-system,"BlinkMacSystemFont","Helvetica Neue","Helvetica","Lucida Grande","Arial",sans-serif}
 body *{font-size:2em}
 textarea, input, select, button {
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    resize: vertical;
-    padding: .25em;
-    margin: 0 auto;
-    background: white;
+	border: none;
+	outline: none;
+	box-sizing: border-box;
+	resize: vertical;
+	padding: .25em;
+	margin: 0 auto;
+	background: white;
 }
 select {
-    -webkit-appearance: none;
-    border-radius: 0;
+	-webkit-appearance: none;
+	border-radius: 0;
 }
 input[type="text"] {
-    width: 100%;
-    height: 3em;
-    cursor: pointer;
-    border-bottom:1px solid #aaa;
+	width: 100%;
+	height: 3em;
+	cursor: pointer;
+	border-bottom:1px solid #aaa;
 }
 textarea {
-    width: calc(100% - 4em);
-    float: left;
-    height: 6em;
-    min-height: 6em;
+	width: calc(100% - 4em);
+	float: left;
+	height: 6em;
+	min-height: 6em;
 }
 input[type="number"],
 select {
-    text-align: center;
-    width: 4em;
-    height: 3em;
-    overflow: auto;
+	text-align: center;
+	width: 4em;
+	height: 3em;
+	overflow: auto;
 }
 
 .prompt {
-    background: rgba(0,0,0,.7);
-    color: #fff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	background: rgba(0,0,0,.7);
+	color: #fff;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-        </style>
-    </head>
-    <body>
-      <input id="outcome" type="text" readonly data-clipboard-target="#outcome" />
-      <textarea id="phrase" placeholder="type phrase here" autocorrect="off" autocapitalize="off"></textarea>
-      <input id="long" type="number" value="18" min="1" max="48" /><select id="encr"><option value="base64">Base64</option><option value="sha1">SHA1</option></select>
-        <script>
+		</style>
+	</head>
+	<body>
+	  <input id="outcome" type="text" readonly data-clipboard-target="#outcome" />
+	  <textarea id="phrase" placeholder="type phrase here" autocorrect="off" autocapitalize="off"></textarea>
+	  <input id="long" type="number" value="18" min="1" max="48" /><select id="encr"><option value="base64">Base64</option><option value="sha1">SHA1</option></select>
+		<script>
 /*!
  * clipboard.js v1.5.7
  * https://zenorocha.github.io/clipboard.js
@@ -91,25 +91,25 @@ var Sha1={};Sha1.hash=function(t){t=t.utf8Encode();var r=[1518500249,1859775393,
 // Page Scripts //
 //////////////////
 var passwordise = function passwordise (str) {
-    var len = !isNaN(parseInt(long.value, 10)) ? parseInt(long.value) : 18;
+	var len = !isNaN(parseInt(long.value, 10)) ? parseInt(long.value) : 18;
 
-    if (str === '') {
-        return str;
-    }
-    switch (encr.value) {
-        case 'sha1':
-            str = Sha1.hash(str);
-            break;
-        case 'base64':
-        default:
-            str = btoa(str);
-    }
+	if (str === '') {
+		return str;
+	}
+	switch (encr.value) {
+		case 'sha1':
+			str = Sha1.hash(str);
+			break;
+		case 'base64':
+		default:
+			str = btoa(str);
+	}
 
-    str = str.replace(/[^\w]/g, '');
-    while (str.length < len) {
-        str += passwordise(str);
-    }
-    return str.slice(-len);
+	str = str.replace(/[^\w]/g, '');
+	while (str.length < len) {
+		str += passwordise(str);
+	}
+	return str.slice(-len);
 };
 
 phrase.onchange =
@@ -117,11 +117,11 @@ phrase.onkeyup =
 encr.onchange =
 long.onchange =
 long.onkeyup = function triggered () {
-    outcome.value = passwordise(phrase.value);
+	outcome.value = passwordise(phrase.value);
 };
 document.body.onload = function loaded () {
-    outcome.onclick = outcome.select;
-    phrase.focus();
+	outcome.onclick = outcome.select;
+	phrase.focus();
 };
 
 ////////////////////////
@@ -130,33 +130,35 @@ document.body.onload = function loaded () {
 var clipboard = new Clipboard('#outcome');
 
 clipboard.on('success', function clipboardSuccess (e) {
-    if (e.text.length < 1) {
-        return;
-    }
-    msg("copied");
-    e.clearSelection();
+	if (e.text.length < 1) {
+		return;
+	}
+	msg("copied");
+	e.clearSelection();
 });
 
 clipboard.on('error', function clipboardError () {
-    // Probably Safari
-    if (outcome.value.length < 1) {
-        return;
-    }
-    msg("⌘+C to copy");
+	// Probably Safari
+	if (outcome.value.length < 1) {
+		return;
+	}
+	msg("⌘+C to copy");
 });
 
 var msg = function msg (message) {
-    if (document.getElementsByClassName('prompt').length > 0) {
-        return;
-    }
-    var prompt = document.createElement('div');
-    prompt.classList.add('prompt');
-    prompt.appendChild(document.createTextNode(message));
-    document.body.appendChild(prompt);
-    setTimeout(function removePromprt () {
-        document.body.removeChild(prompt);
-    }, 1000);
+	if (document.getElementsByClassName('prompt').length > 0) {
+		return;
+	}
+	var prompt = document.createElement('div');
+	prompt.classList.add('prompt');
+	prompt.appendChild(document.createTextNode(message));
+	document.body.appendChild(prompt);
+	setTimeout(function removePromprt () {
+		document.body.removeChild(prompt);
+	}, 1000);
 };
-        </script>
-    </body>
+
+navigator.onLine && location.protocol.startsWith('https') && 'serviceWorker' in navigator && navigator.serviceWorker.register('sw.js?ck=v1');
+		</script>
+	</body>
 </html>
